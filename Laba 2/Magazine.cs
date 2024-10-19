@@ -78,27 +78,24 @@ public class Magazine
             return totalRating / articles.Length;
         }
     }
-    public void AddArticles(params Article[] newArticles)
-    {
-        int oldLength = articles.Length;
-        Array.Resize(ref articles, oldLength + newArticles.Length);
-        for (int i = 0; i < newArticles.Length; i++)
-        {
-            articles[oldLength + i] = newArticles[i];
-        }
-    }
+    
     public string ToFullString()
     {
-        string result = $"Название журнала: {name}, Периодичность: {frequency}, Дата выхода: {releaseDate.ToShortDateString()}, Тираж: {circulation}, Средний рейтинг: {AverageRating}\nСтатьи:\n";
-        foreach (var article in articles)
+        string result = $"\nНазвание журнала: {name},\nериодичность: {frequency},\nДата выхода: {releaseDate.ToShortDateString()},\nТираж: {circulation},\nСредний рейтинг: {AverageRating}\n";
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("Статьи этого автора:");
+        for (int i=0; i< articles.Length; i++)
         {
-            result += $"- {article.ToFullString()}\n";
+         result +=  articles[i].ToFullString();
         }
+        string str = sb.ToString();
+        Console.WriteLine(str);
+
         return result;
     }
 
     public string ToShortString()
     {
-        return $"Название журнала: {name}, Периодичность: {frequency}, Дата выхода: {releaseDate.ToShortDateString()}, Тираж: {circulation}, Средний рейтинг: {AverageRating}";
+        return $"Название журнала: {name},\nПериодичность: {frequency},\nДата выхода: {releaseDate.ToShortDateString()},\nТираж: {circulation},\nСредний рейтинг: {AverageRating}";
     }
 }

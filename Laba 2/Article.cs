@@ -20,7 +20,7 @@ public class Article
     public Article()
     {
         Author = new Person();
-        Title = "Название статьи по умолчанию";
+        Title = "Просто статья";
         Rating = 0.0;
     }
 
