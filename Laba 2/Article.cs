@@ -19,9 +19,14 @@ public class Article
 
     public Article()
     {
-        Author = new Person();
-        Title = "Просто статья";
-        Rating = 0.0;
+        Author = new Person("Дмитрий", "Тихонов", new DateTime(2000, 9, 15));
+        Title = "Ладога";
+        Rating = 4.3;
+    }
+
+    public double GetRate()
+    {
+        return Rating;
     }
 
     public string ToFullString()

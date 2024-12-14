@@ -1,19 +1,14 @@
 ﻿using MagazineApp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 public class Magazine
 {
-
     private string name;
     private Frequency frequency;
     private DateTime releaseDate;
     private int circulation;
     private Article[] articles;
-
 
     public Magazine(string name, Frequency frequency, DateTime releaseDate, int circulation)
     {
@@ -21,7 +16,7 @@ public class Magazine
         this.frequency = frequency;
         this.releaseDate = releaseDate;
         this.circulation = circulation;
-        this.articles = new Article[0]; 
+        this.articles = new Article[0];
     }
 
     public Magazine()
@@ -30,7 +25,9 @@ public class Magazine
         frequency = Frequency.Monthly;
         releaseDate = new DateTime(2000, 1, 1);
         circulation = 1000;
-        articles = new Article[0];
+        articles = new Article[2];
+        articles[0] = new Article(); // Статья по умолчанию
+        articles[1] = new Article(new Person("Арина", "Загородная", new DateTime(1999, 12, 20)), "Ещё_Статья", 5);
     }
 
     public string Name
@@ -67,31 +64,37 @@ public class Magazine
     {
         get
         {
-            if (articles.Length == 0)
-                return 0.0;
-
-            double totalRating = 0.0;
-            foreach (var article in articles)
+            double Sum = 0;
+            for (int i = 0; i < articles.Length; i++)
             {
-                totalRating += article.Rating;
+                Article currentArticle = articles[i];
+                Sum = Sum + currentArticle.GetRate();
             }
-            return totalRating / articles.Length;
+            Sum = Sum / articles.Length;
+
+            return Sum;
         }
     }
-    
+
     public string ToFullString()
     {
-        string result = $"\nНазвание журнала: {name},\nериодичность: {frequency},\nДата выхода: {releaseDate.ToShortDateString()},\nТираж: {circulation},\nСредний рейтинг: {AverageRating}\n";
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine("Статьи этого автора:");
-        for (int i=0; i< articles.Length; i++)
-        {
-         result +=  articles[i].ToFullString();
-        }
-        string str = sb.ToString();
-        Console.WriteLine(str);
+        StringBuilder result = new StringBuilder();
+        result.AppendLine($"\nНазвание журнала: {name}");
+        result.AppendLine($"Периодичность: {frequency}");
+        result.AppendLine($"Дата выхода: {releaseDate.ToShortDateString()}");
+        result.AppendLine($"Тираж: {circulation}");
+        result.AppendLine($"Средний рейтинг: {AverageRating}");
 
-        return result;
+        result.AppendLine("Статьи этого журнала:");
+        foreach (var article in articles)
+        {
+            if (article != null)
+            {
+                result.AppendLine(article.ToFullString());
+            }
+        }
+
+        return result.ToString();
     }
 
     public string ToShortString()
